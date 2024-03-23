@@ -28,7 +28,7 @@ locals {
       identifier                 = "${local.project_name}-database"
       allocated_storage          = 10
       engine_version             = "8.0.34"
-      instance_class             = "db.t2.micro"
+      instance_class             = "db.t3.micro"
       username                   = "admin"
       password_admin_secret_name = "database/Admin/Password"
       password_app_secret_name   = "database/Service/${local.context_name}/Password"

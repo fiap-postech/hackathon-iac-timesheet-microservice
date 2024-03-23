@@ -17,19 +17,3 @@ variable "authorizer_id" {
   type        = string
   description = "API Gateway Authorizer ID"
 }
-
-variable "aes_algorithm" {
-  type        = string
-  description = "Algorithm to be used in customer data removal encryption flow"
-}
-
-variable "aes_password" {
-  type        = string
-  description = "AES Password to be used in customer data removal encryption flow"
-}
-
-variable "aes_iv" {
-  type        = string
-  description = "AES IV to be used in customer data removal encryption flow"
-}
-

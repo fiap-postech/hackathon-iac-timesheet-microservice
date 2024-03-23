@@ -70,3 +70,7 @@ data "aws_apigatewayv2_api" "tech_challenge_api" {
 data "aws_apigatewayv2_vpc_link" "gateway_vpc_link" {
   vpc_link_id = var.vpc_link_id
 }
+
+data "aws_lambda_function" "lambda_timesheet_receiver" {
+  function_name = "hackathon-timesheet-receiver"
+}

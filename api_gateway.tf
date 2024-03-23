@@ -1,40 +1,41 @@
-resource "aws_apigatewayv2_integration" "apigw_integration" {
-  api_id                 = data.aws_apigatewayv2_api.tech_challenge_api.id
-  integration_type       = local.api_gateway.integration.integration_type
-  integration_uri        = aws_lb_listener.listener_http.arn
-  integration_method     = local.api_gateway.integration.integration_method
-  connection_type        = local.api_gateway.integration.connection_type
-  connection_id          = data.aws_apigatewayv2_vpc_link.gateway_vpc_link.id
-  payload_format_version = local.api_gateway.integration.payload_format_version
+
+resource "aws_apigatewayv2_integration" "timesheet_receiver_integration" {
+  api_id = data.aws_apigatewayv2_api.tech_challenge_api.id
+
+  integration_uri  = data.aws_lambda_function.lambda_timesheet_receiver.invoke_arn
+  integration_type = "AWS_PROXY"
 
   request_parameters = {
     "overwrite:header.x-employee-id"    = "$context.authorizer.employeeId"
     "overwrite:header.x-employee-email" = "$context.authorizer.employeeEmail"
   }
 
+  depends_on = [data.aws_lambda_function.lambda_timesheet_receiver]
+}
+
+resource "aws_apigatewayv2_route" "timeshet_receiver_route" {
+  api_id    = data.aws_apigatewayv2_api.tech_challenge_api.id
+  route_key = "POST /timesheet/report"
+  target    = "integrations/${aws_apigatewayv2_integration.timesheet_receiver_integration.id}"
+
+  authorization_type = "CUSTOM"
+  authorizer_id      = var.authorizer_id
+
   depends_on = [
-    aws_lb_listener.listener_http
+    aws_apigatewayv2_integration.timesheet_receiver_integration
   ]
 }
 
-resource "aws_apigatewayv2_route" "apigw_route_to_all_internal" {
-  api_id             = data.aws_apigatewayv2_api.tech_challenge_api.id
-  route_key          = "ANY /${lower(local.context_name)}/{proxy+}"
-  authorization_type = "CUSTOM"
-  authorizer_id      = var.authorizer_id
-  target             = "integrations/${aws_apigatewayv2_integration.apigw_integration.id}"
-  depends_on = [
-    aws_apigatewayv2_integration.apigw_integration
-  ]
-}
+resource "aws_lambda_permission" "api_gw_to_lambda" {
+  statement_id  = "AllowExecutionFromAPIGateway"
+  action        = "lambda:InvokeFunction"
+  function_name = data.aws_lambda_function.lambda_timesheet_receiver.function_name
+  principal     = "apigateway.amazonaws.com"
 
-resource "aws_apigatewayv2_route" "apigw_route_to_root" {
-  api_id             = data.aws_apigatewayv2_api.tech_challenge_api.id
-  route_key          = "ANY /${lower(local.context_name)}"
-  authorization_type = "CUSTOM"
-  authorizer_id      = var.authorizer_id
-  target             = "integrations/${aws_apigatewayv2_integration.apigw_integration.id}"
+  source_arn = "${data.aws_apigatewayv2_api.tech_challenge_api.execution_arn}/*/*"
+
   depends_on = [
-    aws_apigatewayv2_integration.apigw_integration
+    data.aws_lambda_function.lambda_timesheet_receiver,
+    data.aws_apigatewayv2_api.tech_challenge_api
   ]
 }

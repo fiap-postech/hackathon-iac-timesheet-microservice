@@ -56,7 +56,7 @@ locals {
 
       container_definitions = {
         name              = "${local.project_name}-container"
-        image             = "fiapsoat2grupo13/${local.project_name}:latest"
+        image             = "fiapsoat2grupo13/hackathon-${local.project_name}:latest"
         cpu               = 1
         memory            = 2048
         memoryReservation = 2048

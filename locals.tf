@@ -6,6 +6,6 @@ locals {
   vpc_name = "tc-vpc"
 
   s3 = {
-    bucket_name = "time-sheet"
+    bucket_name = "hackathon-soat2-grupo13-time-sheet"
   }
 }

@@ -24,7 +24,7 @@ resource "aws_sqs_queue" "time_tracking_event_queue" {
 }
 
 resource "aws_sqs_queue" "time_tracking_event_dlq" {
-  name                       = "${local.sqs.time_sheet_request.name}-dlq"
+  name                       = "${local.sqs.time_tracking_event.name}-dlq"
   delay_seconds              = local.sqs.delay_seconds
   max_message_size           = local.sqs.max_message_size
   message_retention_seconds  = local.sqs.message_retention_seconds

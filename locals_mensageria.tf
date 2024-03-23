@@ -18,7 +18,10 @@ locals {
       name = "prd-hackathon-time-sheet-time-tracking-event-queue"
     }
     time_sheet_request = {
-      name = "local-hackathon-time-sheet-request-queue"
+      name = "prd-hackathon-time-sheet-request-queue"
+    }
+    time_sheet_notification = {
+      name = "prd-hackathon-time-sheet-notification-request-queue"
     }
   }
 }

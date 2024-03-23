@@ -50,6 +50,10 @@ data "aws_sns_topic" "time_tracking_event_topic" {
   name = local.subscription.through_queue.name
 }
 
+data "aws_sqs_queue" "time_sheet_notification_queue" {
+  name = local.sqs.time_sheet_notification.name
+}
+
 
 data "aws_ecs_cluster" "cluster" {
   cluster_name = local.ecs.cluster_name

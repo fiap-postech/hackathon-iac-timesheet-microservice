@@ -181,6 +181,7 @@ resource "aws_iam_role_policy" "service_execution_policy" {
           aws_sqs_queue.time_tracking_event_dlq.arn,
           aws_sqs_queue.time_sheet_request_queue.arn,
           aws_sqs_queue.time_sheet_request_dlq.arn,
+          data.aws_sqs_queue.time_sheet_notification_queue.arn,
         ],
       },
       {

@@ -73,7 +73,7 @@ locals {
           "-Duser.timezone=GMT-3",
           "-Djava.security.egd=file:/dev/./urandom",
           "-jar",
-          "${local.project_name}.jar"
+          "hackathon-${local.project_name}.jar"
         ]
         environment = [
           {

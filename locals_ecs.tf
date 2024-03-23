@@ -89,7 +89,7 @@ locals {
             value = local.rds.setup.schema.name
           },
           {
-            name = "aws.resources.s3.time-sheet.bucket"
+            name  = "aws.resources.s3.time-sheet.bucket"
             value = "hackathon-soat2-grupo13-time-sheet"
           }
         ]

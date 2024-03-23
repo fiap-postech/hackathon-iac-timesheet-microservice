@@ -39,7 +39,7 @@ locals {
 
     setup = {
       schema = {
-        name          = "customer"
+        name          = "timesheetdb"
         character_set = "utf8mb4"
         collation     = "utf8mb4_0900_ai_ci"
       }

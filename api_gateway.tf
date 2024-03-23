@@ -7,6 +7,11 @@ resource "aws_apigatewayv2_integration" "apigw_integration" {
   connection_id          = data.aws_apigatewayv2_vpc_link.gateway_vpc_link.id
   payload_format_version = local.api_gateway.integration.payload_format_version
 
+  request_parameters = {
+    "overwrite:header.x-employee-id"    = "$context.authorizer.employeeId"
+    "overwrite:header.x-employee-email" = "$context.authorizer.employeeEmail"
+  }
+
   depends_on = [
     aws_lb_listener.listener_http
   ]
